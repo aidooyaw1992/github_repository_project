@@ -5,7 +5,7 @@ import 'package:github_repository_project/src/domain/time_period.dart';
 import 'package:github_repository_project/src/ui/components/custom_error_widget.dart';
 
 import '../../domain/app_repository.dart';
-import '../bloc/home/trending_cubit.dart';
+import '../bloc/trending/trending_cubit.dart';
 import '../components/repository_list_item.dart';
 
 class TrendingPage extends StatelessWidget {

@@ -1,16 +1,16 @@
 import 'package:flutter/foundation.dart';
 
 class AppConstants {
-   static const String _devToken = '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';
+   static const String _devToken = '';
   static const String _prodToken = String.fromEnvironment('GITHUB_TOKEN');
   
   static String get githubToken {
     if (kDebugMode) {
       // Use development token in debug mode
-      return _devToken;
+      return _devToken.isNotEmpty ? 'Bearer $_devToken': '';
     } else {
       // Use environment variable in release mode
-      return _prodToken.isNotEmpty ? _prodToken : '';
+      return _prodToken.isNotEmpty ? 'Bearer $_prodToken' : '';
     }
   }
   

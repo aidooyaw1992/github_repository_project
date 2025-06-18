@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:github_repository_project/src/data/models/github_repo_model.dart';
-import 'package:github_repository_project/src/ui/components/profile_widget.dart';
-import 'package:github_repository_project/src/ui/components/fork_count_widget.dart';
 import 'package:github_repository_project/src/ui/components/language_widget.dart';
+import 'package:github_repository_project/src/ui/components/profile_widget.dart';
 import 'package:github_repository_project/src/ui/components/repo_status.dart';
 import 'package:github_repository_project/src/ui/components/star_gazer_widget.dart';
 
@@ -75,7 +74,6 @@ class RepositoryListItem extends StatelessWidget {
                   children: [
                     LanguageWidget(language: repository.language, dotSize: 12),
                     StarGazerWidget(starCount: repository.stargazersCount),
-                    ForkCountWidget(forkCount: repository.forksCount),
                     RepoStatus(isPrivate: repository.private),
                   ],
                 ),

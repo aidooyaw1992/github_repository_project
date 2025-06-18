@@ -145,7 +145,9 @@ class _TrendingViewState extends State<TrendingView> {
               );
             }
             if (state is TrendingStateFailure) {
-              return Center(child: CustomErrorWidget(message: state.error.message));
+              return Center(child: CustomErrorWidget(message: state.error.message, onRetryPressed: (){
+                context.read<TrendingCubit>().fetchLatestTrendingRepos();
+              },));
             }
             return Center(
               child: Row(

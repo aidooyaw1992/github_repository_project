@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:github_repository_project/src/data/models/github_repo_model.dart';
 import 'package:github_repository_project/src/util/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';

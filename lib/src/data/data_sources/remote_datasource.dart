@@ -60,8 +60,8 @@ class RemoteDatasource {
     required int page,
   }) async {
     final uri = Uri.parse(
-      // '${AppConstants.baseUrl}/search/repositories',
-      '${AppConstants.baseUrl}/search/repositor', //testing error message
+      '${AppConstants.baseUrl}/search/repositories',
+      // '${AppConstants.baseUrl}/search/repositor', //testing error message
     ).replace(
       queryParameters: {
         'q': query,

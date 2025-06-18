@@ -14,11 +14,13 @@ class FavouritesStateLoading extends FavouritesState {}
 class FavouritesStateSuccess extends FavouritesState {
   final List<GithubRepoModel> result;
 
-  FavouritesStateSuccess({required this.result});
+  const FavouritesStateSuccess({required this.result});
+  @override
+  List<Object?> get props => [result];
 }
 
 class FavouritesFailure extends FavouritesState {
   final DBError error;
 
-  FavouritesFailure({required this.error});
+  const FavouritesFailure({required this.error});
 }

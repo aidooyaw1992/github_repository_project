@@ -10,11 +10,14 @@ class RepositoryListItem extends StatelessWidget {
     super.key,
     required this.repository,
     this.onFavouritePressed,
+
     required this.onCardPressed,
+    this.onDeleteCardPressed,
   });
 
   final VoidCallback? onFavouritePressed;
   final VoidCallback onCardPressed;
+  final VoidCallback? onDeleteCardPressed;
 
   final GithubRepoModel repository;
 
@@ -23,7 +26,6 @@ class RepositoryListItem extends StatelessWidget {
     return GestureDetector(
       onTap: onCardPressed,
       child: Card(
-        
         elevation: 1,
         child: Container(
           constraints: BoxConstraints(minHeight: 120),
@@ -35,21 +37,31 @@ class RepositoryListItem extends StatelessWidget {
               Row(
                 children: [
                   Spacer(),
-                  if (onFavouritePressed != null)
+                  if (onFavouritePressed != null) ...{
                     IconButton(
                       onPressed: onFavouritePressed,
                       icon: Icon(
-                        repository.isFavouriteRepo 
-                            ? Icons.favorite 
+                        repository.isFavouriteRepo
+                            ? Icons.favorite
                             : Icons.favorite_outline,
-                        color: repository.isFavouriteRepo 
-                            ? Colors.red 
-                            : Colors.grey,
+                        color:
+                            repository.isFavouriteRepo
+                                ? Colors.red
+                                : Colors.grey,
                       ),
-                      tooltip: repository.isFavouriteRepo 
-                          ? 'Remove from favourites' 
-                          : 'Add to favourites',
+                      tooltip:
+                          repository.isFavouriteRepo
+                              ? 'Remove from favourites'
+                              : 'Add to favourites',
                     ),
+                  },
+
+                  if (onDeleteCardPressed != null) ...{
+                    IconButton(
+                      onPressed: onDeleteCardPressed,
+                      icon: Icon(Icons.delete_rounded),
+                    ),
+                  },
                 ],
               ),
               // SizedBox.fromSize(size: Size.fromHeight(8)),
@@ -64,7 +76,10 @@ class RepositoryListItem extends StatelessWidget {
                 style: TextStyle(fontSize: 14),
               ),
               // SizedBox.fromSize(size: Size.fromHeight(4)),
-              ProfileWidget(avatarUrl: repository.owner.avatarUrl, username: repository.owner.login),
+              ProfileWidget(
+                avatarUrl: repository.owner.avatarUrl,
+                username: repository.owner.login,
+              ),
               // SizedBox.fromSize(size: Size.fromHeight(8)),
               SizedBox(
                 height: 32,

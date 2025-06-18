@@ -42,55 +42,85 @@ class _FavouritesViewState extends State<FavouritesView> {
         title: Text('Favourite Github Repositories'),
         actions: [
           IconButton(
-            onPressed: () {
-              context.read<FavouritesCubit>().deleteAllFavouriteRepos();
-            },
-            icon: Icon(Icons.delete_rounded),
+            icon: Icon(Icons.refresh),
+            onPressed:
+                () =>
+                    context
+                        .read<FavouritesCubit>()
+                        .retrieveStoredFavouriteRepos(),
           ),
         ],
       ),
 
-      body: Container(
-        height: deviceSize.height,
-        width: deviceSize.width,
-        padding: EdgeInsets.symmetric(horizontal: 8),
-        child: BlocBuilder<FavouritesCubit, FavouritesState>(
-          builder: (context, state) {
-            if (state is FavouritesStateSuccess) {
-              if (state.result.isEmpty) {
-                return Center(child: Text("No Favourites Available"));
+      body: BlocListener<FavouritesCubit, FavouritesState>(
+        listener: (context, state) {
+          if (state is FavouritesFailure) {
+            showToast(context, state.error.message);
+          }
+        },
+        child: Container(
+          height: deviceSize.height,
+          width: deviceSize.width,
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          child: BlocBuilder<FavouritesCubit, FavouritesState>(
+            builder: (context, state) {
+              if (state is FavouritesStateSuccess) {
+                if (state.result.isEmpty) {
+                  return Center(child: Text("No Favourites Available"));
+                }
+                return RefreshIndicator(
+                  onRefresh:
+                      () =>
+                          context
+                              .read<FavouritesCubit>()
+                              .retrieveStoredFavouriteRepos(),
+                  child: ListView.builder(
+                    itemCount: state.result.length,
+                    itemBuilder: (context, pos) {
+                      final repository = state.result[pos];
+                      return RepositoryListItem(
+                        repository: repository,
+                        onCardPressed:
+                            () => Navigator.pushNamed(
+                              context,
+                              'details',
+                              arguments: DetailsScreenArgument(repository),
+                            ),
+                        onDeleteCardPressed: () {
+                          context.read<FavouritesCubit>().deleteFavouriteRepo(
+                            repository,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                );
+              } else if (state is FavouritesStateLoading) {
+                return Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Loading Saved Repositories"),
+                      SizedBox.fromSize(size: Size.fromWidth(4)),
+                      CircularProgressIndicator(),
+                    ],
+                  ),
+                );
               }
-              return RefreshIndicator(
-                onRefresh:
-                    () =>
-                        context
-                            .read<FavouritesCubit>()
-                            .retrieveStoredFavouriteRepos(),
-                child: ListView.builder(
-                  itemCount: state.result.length,
-                  itemBuilder: (context, pos) {
-                    final repository = state.result[pos];
-                    return RepositoryListItem(
-                      repository: repository,
-                      onCardPressed:
-                          () => Navigator.pushNamed(context, 'details', arguments: DetailsScreenArgument(repository)),
-                    );
-                  },
-                ),
-              );
-            }
-            return Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Loading Saved Repositories"),
-                  SizedBox.fromSize(size: Size.fromWidth(4)),
-                  CircularProgressIndicator(),
-                ],
-              ),
-            );
-          },
+              return SizedBox.shrink();
+            },
+          ),
         ),
+      ),
+    );
+  }
+
+  void showToast(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.red[700],
+        content: Text(message),
+        duration: Duration(seconds: 2),
       ),
     );
   }

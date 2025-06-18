@@ -14,20 +14,38 @@ class FavouritesCubit extends Cubit<FavouritesState> {
     : super(FavouritesStateLoading());
 
   retrieveStoredFavouriteRepos() async {
-     emit(FavouritesStateLoading());
-     await Future.delayed(Duration(milliseconds: 10));
+    emit(FavouritesStateLoading());
+    await Future.delayed(Duration(milliseconds: 10));
     var res = await appRepository.retrieveAllSavedFavouriteRepositories();
     return res.fold((l) => emit(FavouritesFailure(error: l)), (result) {
       emit(FavouritesStateSuccess(result: result));
     });
   }
 
-  deleteAllFavouriteRepos() async{
+  deleteAllFavouriteRepos() async {
     emit(FavouritesStateLoading());
     final res = await appRepository.clearAllFavouriteRepositories();
-     return res.fold((l) => emit(FavouritesFailure(error: l)), (result) {
+    return res.fold((l) => emit(FavouritesFailure(error: l)), (result) {
       emit(FavouritesStateSuccess(result: []));
     });
   }
 
+  deleteFavouriteRepo(GithubRepoModel repo) async {
+    final res = await appRepository.removeFavouriteRepository(repo);
+    res.fold(
+      (l) {
+        emit(FavouritesFailure(error: l));
+      },
+      (_) {
+        final currentState = state;
+      if (currentState is FavouritesStateSuccess) {
+        final updatedList = currentState.result
+            .where((existingRepo) => existingRepo.id != repo.id)
+            .toList();
+
+        emit(FavouritesStateSuccess(result: updatedList));
+      }
+      },
+    );
+  }
 }

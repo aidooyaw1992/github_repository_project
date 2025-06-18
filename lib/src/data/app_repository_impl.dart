@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:github_repository_project/src/data/data_sources/local_datasource.dart';
 import 'package:github_repository_project/src/data/models/github_repo_model.dart';
@@ -33,9 +32,9 @@ class AppRepositoryImpl implements AppRepository {
       return Left(ApiError(errorType: ApiErrorType.network));
     } on TimeoutException {
       return Left(ApiError(errorType: ApiErrorType.timeout));
-    } catch (e, s) {
-      debugPrint('$e');
-      debugPrint('$s');
+    } catch (e) {
+      //debugPrint('$e');
+      //debugPrint('$s');
       return Left(ApiError(errorType: ApiErrorType.api, message: e.toString()));
     }
   }
@@ -53,9 +52,9 @@ class AppRepositoryImpl implements AppRepository {
       return Left(ApiError(errorType: ApiErrorType.network));
     } on TimeoutException {
       return Left(ApiError(errorType: ApiErrorType.timeout));
-    } catch (e, s) {
-      debugPrint('$e');
-      debugPrint('$s');
+    } catch (e){
+      //debugPrint('$e');
+      //debugPrint('$s');
       return Left(ApiError(errorType: ApiErrorType.api, message: e.toString()));
     }
   }
@@ -73,9 +72,9 @@ class AppRepositoryImpl implements AppRepository {
       return Left(ApiError(errorType: ApiErrorType.network));
     } on TimeoutException {
       return Left(ApiError(errorType: ApiErrorType.timeout));
-    } catch (e, s) {
-      debugPrint('$e');
-      debugPrint('$s');
+    } catch (e) {
+      //debugPrint('$e');
+      //debugPrint('$s');
       return Left(ApiError(errorType: ApiErrorType.api, message: e.toString()));
     }
   }
@@ -92,9 +91,9 @@ class AppRepositoryImpl implements AppRepository {
       return Left(ApiError(errorType: ApiErrorType.network));
     } on TimeoutException {
       return Left(ApiError(errorType: ApiErrorType.timeout));
-    } catch (e, s) {
-      debugPrint('$e');
-      debugPrint('$s');
+    } catch (e) {
+      //debugPrint('$e');
+      //debugPrint('$s');
       return Left(ApiError(errorType: ApiErrorType.api, message: e.toString()));
     }
   }
@@ -106,7 +105,7 @@ class AppRepositoryImpl implements AppRepository {
   ) async {
     try {
       if (response.pagination?.nextUrl != null) {
-        print(response.pagination?.nextUrl);
+        // print(response.pagination?.nextUrl);
         final result = await api.fetchNextPage(response.pagination!.nextUrl!);
         return Right(result);
       } else {
@@ -118,10 +117,10 @@ class AppRepositoryImpl implements AppRepository {
       return Left(ApiError(errorType: ApiErrorType.network));
     } on TimeoutException {
       return Left(ApiError(errorType: ApiErrorType.timeout));
-    } catch (e, s) {
-      print("im here");
-      debugPrint('$e');
-      debugPrint('$s');
+    } catch (e) {
+      // print("im here");
+      //debugPrint('$e');
+      //debugPrint('$s');
       return Left(ApiError(errorType: ApiErrorType.api, message: e.toString()));
     }
   }
@@ -158,7 +157,7 @@ class AppRepositoryImpl implements AppRepository {
   ) async {
     try {
       await storage.saveRepository(repository);
-      print("saved repo ${repository.id}");
+      // print("saved repo ${repository.id}");
       return Right(null);
     } catch (e) {
       return Left(DBError(message: "something went wrong"));

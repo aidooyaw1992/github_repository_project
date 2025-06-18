@@ -25,7 +25,7 @@ class TrendingCubit extends Cubit<TrendingState> {
     return result.fold((l) => emit(TrendingStateFailure(error: l)), (
       result,
     ) async {
-      print(result.pagination?.nextUrl);
+      // print(result.pagination?.nextUrl);
       final updatedItems = await _checkFavoriteStatus(result.items);
 
       emit(
@@ -42,7 +42,7 @@ class TrendingCubit extends Cubit<TrendingState> {
     final currentState = state;
     if (currentState is TrendingStateSuccess &&
         currentState.pageInfo?.nextUrl != null) {
-      print("loading more");
+      // print("loading more");
 
       final currentResponse = SearchResponseModel(
         totalCount: currentState.totalCount,
@@ -60,7 +60,7 @@ class TrendingCubit extends Cubit<TrendingState> {
           final newItemsWithFavoriteStatus = await _checkFavoriteStatus(searchResponse.items);
           final updatedList = [...currentState.result, ...newItemsWithFavoriteStatus];
           
-          print("updated list length => ${updatedList.length}");
+          // print("updated list length => ${updatedList.length}");
           emit(
             TrendingStateSuccess(
               result: updatedList,
@@ -89,7 +89,7 @@ class TrendingCubit extends Cubit<TrendingState> {
             }
           }).toList();
 
-      print('updated trending');
+      // print('updated trending');
       emit(
         TrendingStateSuccess(
           result: updatedList,
@@ -114,7 +114,7 @@ class TrendingCubit extends Cubit<TrendingState> {
             }
           }).toList();
 
-      print('updated trending');
+      // print('updated trending');
       emit(
         TrendingStateSuccess(
           result: updatedList,

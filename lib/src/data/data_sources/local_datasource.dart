@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:github_repository_project/src/data/models/github_repo_model.dart';
 import 'package:github_repository_project/src/util/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,14 +25,14 @@ class LocalDatasource {
     final jsonList =
         prefs.getStringList(AppConstants.favouriteRepositoriesKey) ?? [];
 
-// print(jsonList);
+// debugPrint(jsonList);
     final repositories =
         jsonList.map((jsonString) {
           final json = jsonDecode(jsonString) as Map<String, dynamic>;
           return GithubRepoModel.fromJson(json);
         }).toList();
 
-    print('Retrieved ${repositories.length} saved repositories');
+    // debugPrint('Retrieved ${repositories.length} saved repositories');
     return repositories;
   }
 
@@ -47,7 +48,7 @@ class LocalDatasource {
 
     await prefs.setStringList(AppConstants.favouriteRepositoriesKey, jsonList);
 
-    print('Repository removed: ${repository.name}');
+    // print('Repository removed: ${repository.name}');
   }
 
   Future<GithubRepoModel?> retrieveSavedRepository(int repositoryId) async {

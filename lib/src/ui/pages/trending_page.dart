@@ -38,7 +38,7 @@ class _TrendingViewState extends State<TrendingView> {
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
       context.read<TrendingCubit>().fetchMore();
-      print("last page");
+      // print("last page");
     }
   }
 

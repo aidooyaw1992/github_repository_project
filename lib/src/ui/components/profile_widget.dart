@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ProfileWidget extends StatelessWidget {
-  final String avatarUrl;
+  final String? avatarUrl;
   final String? username;
   final double? customSize;
-  const ProfileWidget({super.key, required this.avatarUrl, this.username,  this.customSize});
+  const ProfileWidget({super.key, this.avatarUrl, this.username,  this.customSize});
 
   @override
   Widget build(BuildContext context) {

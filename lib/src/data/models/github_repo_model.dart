@@ -106,13 +106,13 @@ class GithubRepoModel {
 class GithubOwner {
   final String login;
   final int id;
-  final String avatarUrl;
+  final String? avatarUrl;
   final String htmlUrl;
 
   GithubOwner({
     required this.login,
     required this.id,
-    required this.avatarUrl,
+    this.avatarUrl,
     required this.htmlUrl,
   });
 
